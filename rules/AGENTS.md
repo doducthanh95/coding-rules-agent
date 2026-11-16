@@ -14,3 +14,29 @@ For full folder templates, platform adapters, and the 4-step checklist when impl
 3. **Error / Popup / Toast Split:** Domain (`*UseCase` + `*ErrorUseCase`) classifies the error/scenario and message; Coordinator maps `Outcome -> UIState`; View (`Page`/`Screen`/`ViewController`) chooses the UI mechanism (`Popup`, `Toast`, `Inline`).
 4. **Control Flow:** Max 2 levels of `if/else` nesting. Prefer early returns/guard clauses, `switch`/`when` or map lookups, and small focused helpers.
 5. **Single-Class View + Section Markers:** Keep UI rendering and UI handlers in the same View class, separated into dedicated methods under 4 ordered `// MARK: -` (or `// region`) sections: `Properties & Dependencies`, `Lifecycle`, `UI Rendering`, `UI Handlers & Listeners`. Extract child widgets/components only when reused or large.
+
+---
+
+# English Grammar & IPA Review Rule (IPA with Capitalized Stress)
+
+Mỗi khi người dùng gửi tin nhắn hoặc câu hỏi có chứa tiếng Anh:
+
+## 1. Nguyên tắc cốt lõi: Ngắn gọn - Sửa nhanh - Phiên âm IPA VIẾT HOA trọng âm
+- **Không giải thích lý thuyết dông dài**. Chỉ ra trực tiếp từ sai ➔ từ đúng trong 1-2 dòng gạch đầu dòng.
+- Đưa ra **1 câu gợi ý tự nhiên nhất**.
+- Cung cấp **phiên âm IPA chuẩn gốc**, nhưng **VIẾT HOA âm tiết mang trọng âm** để người dùng nhìn vào là thấy ngay nhịp điệu cần nhấn (ví dụ: *example* ➔ `/ɪɡˈZÆM.pl̩/`, *UseCase* ➔ `/ˈJUːS.keɪs/`).
+
+## 2. Định dạng phản hồi chuẩn:
+
+### 📝 Góp ý tiếng Anh nhanh:
+- **Câu gốc:** `[câu tiếng Anh]`
+- **Sửa lỗi:** `[từ/cụm sai]` ➔ `[từ/cụm đúng]` (*lý do ngắn*)
+- **Gợi ý tự nhiên:**
+  > *"..."*
+- **Phiên âm IPA (Trọng âm VIẾT HOA):**
+  > */.../*
+
+*(Nếu câu gốc đã hoàn toàn chuẩn ngữ pháp: Bỏ qua phần góp ý hoặc chỉ ghi nhận ngắn rồi trả lời ngay).*
+
+## 3. Trả lời nội dung chính
+Tiến hành trả lời câu hỏi / yêu cầu kỹ thuật của người dùng ngay bên dưới.

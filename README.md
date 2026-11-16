@@ -4,9 +4,10 @@ Antigravity plugin bundle containing the team's **Multi-Platform Clean Architect
 
 ## Contents
 
-- `rules/AGENTS.md` — Always-on Core Invariants (3-layer Clean Architecture, UseCase vs Presentation boundary, Anti-God-Function `UseCase` structure, Error/Popup/Toast split, max 2-level nesting, Single-Class View with `// MARK:` sections).
+- `rules/AGENTS.md` — Always-on Core Invariants (3-layer Clean Architecture, UseCase vs Presentation boundary, Anti-God-Function `UseCase` structure, Error/Popup/Toast split, max 2-level nesting, Single-Class View with `// MARK:` sections) + English Grammar & IPA Review rule.
 - `skills/clean-arch-coding/` — Feature folder templates, Platform Adapters (Flutter, Android, iOS), and 4-step implementation checklist.
 - `skills/opus-coding-workflow/` — Universal spec-first, preview-gate, refactor, debug, and verification workflow with lazy-loaded stack references (`references/`).
+- `skills/english-grammar-mentor/` — Concise English spelling/grammar correction and capitalized-stress IPA mentor.
 
 ## Installation for Team Members
 
