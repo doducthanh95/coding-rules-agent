@@ -1,0 +1,9 @@
+{
+  "name": "coding-rules-agent",
+  "description": "Multi-platform Clean Architecture 3-layer coding standard (Flutter, Android, iOS) and universal engineering workflow for Antigravity.",
+  "suggestedPrompts": [
+    "Implement a new feature following Clean Architecture 3-layer standard",
+    "Review this module against UseCase vs Presentation boundary rules",
+    "Refactor this feature with Thin Coordinator and // MARK: View sections"
+  ]
+}
