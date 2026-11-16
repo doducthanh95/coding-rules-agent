@@ -4,33 +4,31 @@ Bộ **Quy chuẩn Lập trình (Coding Standard)** & **Quy trình Kỹ thuật 
 
 ---
 
-## 1. Mindset cốt lõi (Giải thích cho người Non-Tech cũng hiểu)
+## 1. Mindset cốt lõi (Cho cả người Non-Tech)
 
-Hãy tưởng tượng bạn thuê một **AI viết code** giống như tuyển một **nhân viên mới làm việc cực nhanh nhưng rất hay "tiện tay đâu làm đó"**.
+AI viết code rất nhanh nhưng dễ **"tiện tay đâu viết đó"**: trộn lẫn giao diện, luật nghiệp vụ và gọi mạng vào cùng một chỗ. Hậu quả là sửa giao diện dễ làm hỏng logic, còn muốn kiểm tra đúng sai lại phải bật cả app bấm tay.
 
-Nếu không có quy định rõ ràng, AI thường mắc 3 lỗi kinh điển:
-1. **Trộn lẫn mọi thứ vào một chỗ:** Lấy dữ liệu mạng, kiểm tra logic nghiệp vụ và vẽ giao diện nút bấm chung trong 1 file. Lúc mới chạy thì rất nhanh, nhưng 1 tháng sau sửa nút bấm có thể làm hỏng luôn logic tính tiền.
-2. **Làm theo kiểu "đoán mò":** Thấy chỗ nào cũng sửa, không đọc code cũ trước, xong việc thì bảo *"chắc là chạy được"* mà không chạy kiểm tra thật.
-3. **Không thể kiểm thử tự động (Unit Test):** Vì nghiệp vụ bị dính chặt vào màn hình điện thoại, muốn kiểm tra logic đúng hay sai bắt buộc phải bật cả app lên bấm tay.
+### Ví dụ thực tế: Một lần bấm nút "Chuyển tiền" được chia thành 3 tầng
 
-### Ví dụ Nhà hàng để hiểu kiến trúc 3 tầng
+1. **`Presentation` — Tầng Giao diện & Điều phối (Màn hình người dùng thấy)**
+   * **Làm:** Vẽ ô nhập tiền, nút bấm, bật loading; chuyển yêu cầu sang `Domain` rồi chọn cách báo kết quả (hiện **Popup**, **Toast**, hay chữ đỏ).
+   * **Cấm:** Tự tính phí, tự kiểm tra số dư hay đọc mã lỗi kỹ thuật (`401`, `500`...) từ server.
 
-Bộ rule này ép AI tổ chức code giống như cách vận hành một **nhà hàng chuyên nghiệp**, chia làm 3 bộ phận tách biệt:
+2. **`Domain` — Tầng Nghiệp vụ (Bộ não chứa "luật chơi")**
+   * **Làm:** Kiểm tra điều kiện (hạn mức, số dư, cần quét mặt không) và trả về kết quả phân loại rõ ràng (VD: *"Thiếu số dư"*, *"Cần xác thực khuôn mặt"* — không trả `Đúng/Sai` chung chung).
+   * **Đặc quyền:** Không dính tới màn hình hay mạng, nên chạy test tự động hàng trăm tình huống trong vài giây (**Headless Test**).
 
-* **`Presentation` (Mặt tiền & Nhân viên phục vụ):**
-  * Chỉ làm nhiệm vụ **hiển thị đẹp, nhận yêu cầu từ khách hàng và báo lại kết quả** (bật loading, hiện popup, toast, chuyển màn hình).
-  * *Không tự vào bếp nấu ăn, không tự đi chợ.*
-* **`Domain` (`UseCase` & `ErrorUseCase` — Bếp trưởng & Quy trình chế biến):**
-  * Nắm toàn bộ **luật chơi và quy trình nghiệp vụ**: kiểm tra điều kiện, phối hợp các bước, phân loại lỗi.
-  * *Nguyên tắc quan trọng:* Dù tháo bỏ toàn bộ màn hình điện thoại đi, "bếp trưởng" vẫn chạy đúng và kiểm tra được bằng test tự động (**Headless Test**).
-* **`Data` (`RepositoryImpl` & `DTO` — Người đi chợ / Giao vận):**
-  * Chỉ lo **lấy dữ liệu từ Server/Database** về đúng định dạng rồi giao cho bếp trưởng.
-  * *Không tự ý quyết định nghiệp vụ hay lọc/chế biến dữ liệu theo cảm tính.*
+3. **`Data` — Tầng Dữ liệu ("Người đưa thư" ra bên ngoài)**
+   * **Làm:** Gửi/nhận dữ liệu thô với Server (API) hoặc Database, dịch 1-1 sang dữ liệu sạch cho `Domain`.
+   * **Cấm:** Tự ý lọc bớt, sắp xếp hay tự chọn luồng dự phòng — mọi quy tắc đều thuộc `Domain`.
 
-> **Tóm lại:**
-> `Presentation` (Mặt tiền) ➔ `Domain` (Nghiệp vụ) ⬅ `Data` (Lấy dữ liệu)
->
-> Nhờ tách bạch như vậy: đổi giao diện không làm hỏng nghiệp vụ, đổi API không làm vỡ màn hình, và toàn bộ logic quan trọng đều test tự động được.
+### Tại sao phải tách làm 3 tầng như vậy?
+
+* **Đổi giao diện** (đổi thiết kế, chuyển app sang web) ➔ **Chỉ sửa `Presentation`**, logic chuyển tiền giữ nguyên.
+* **Đổi API / Server** ➔ **Chỉ sửa `Data`**, màn hình và nghiệp vụ không bị ảnh hưởng.
+* **Đổi luật nghiệp vụ** (VD: tăng hạn mức chuyển tiền) ➔ **Chỉ sửa `Domain`** và chạy test kiểm tra ngay trong 1 giây.
+
+> **Chiều phụ thuộc:** `Presentation` (Màn hình) ➔ `Domain` (Nghiệp vụ) ⬅ `Data` (Dữ liệu). Giao diện và Dữ liệu đều phải xoay quanh Nghiệp vụ.
 
 ---
 
