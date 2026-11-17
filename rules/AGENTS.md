@@ -14,6 +14,14 @@ For full folder templates, platform adapters, and the 4-step checklist when impl
 3. **Error / Popup / Toast Split:** Domain (`*UseCase` + `*ErrorUseCase`) classifies the error/scenario and message; Coordinator maps `Outcome -> UIState`; View (`Page`/`Screen`/`ViewController`) chooses the UI mechanism (`Popup`, `Toast`, `Inline`).
 4. **Control Flow:** Max 2 levels of `if/else` nesting. Prefer early returns/guard clauses, `switch`/`when` or map lookups, and small focused helpers.
 5. **Single-Class View + Section Markers:** Keep UI rendering and UI handlers in the same View class, separated into dedicated methods under 4 ordered `// MARK: -` (or `// region`) sections: `Properties & Dependencies`, `Lifecycle`, `UI Rendering`, `UI Handlers & Listeners`. Extract child widgets/components only when reused or large.
+6. **External Libraries & SDK Scope:**
+   - **Feature / Device / UI SDKs** (eKYC, Biometric, `local_auth`, `device_info_plus`, Camera, WebView, Lottie, Chart, etc.): Import **only in `Presentation`** (wrap in a dedicated widget/helper/service under `presentation/`, never scatter raw SDK calls inside `build()`). **Never import in `Domain` or `Data`** so features/plugins stay self-contained; pass only pure values into `Coordinator -> UseCase`.
+   - **Data Infrastructure Libs** (HTTP client, `freezed`/`json_serializable`, local/secure storage, payload crypto/signing): Allowed in `Data` for transport/serialization/persistence; **never import in `Domain` or `Presentation`**.
+   - **`Domain`:** Pure language code only—no UI framework (`flutter/material.dart`, `UIKit`, etc.) or 3rd-party SDK imports (pure equality/annotation helpers like `equatable`/`freezed` are allowed when needed).
+7. **Helpers & Shared Utilities:**
+   - **Scope:** Feature-local helpers go in `feature/<name>/helpers/`; cross-feature (`>= 2` features) helpers go in package/app-level `utils/` or `shared/helpers/`.
+   - **Layer Purity:** Pure stateless helpers (no UI imports, no side-effects) may be used by `Domain` and `Presentation`. UI helpers (importing UI frameworks, `BuildContext`, styles) belong only in `presentation/helpers/` or `shared/presentation/`, never in `Domain` or `Data`. Never put API/SDK calls or mutable state in `helpers/`.
+8. **Immutable State (`sealed class` or `@freezed`):** UI `State` must be immutable and support exhaustive `switch`/`when` handling. In Flutter, both Dart `sealed class` and `@freezed` are valid; match the existing convention when editing an existing feature.
 
 ---
 

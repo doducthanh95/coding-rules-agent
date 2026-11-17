@@ -9,15 +9,16 @@ description: Multi-platform Clean Architecture 3-layer workflow, templates, and 
 ```text
 feature/<feature_name>/
 ├── di.*                    # Dependency wiring: Data -> Domain -> Presentation
-├── helpers/                # Enums, constants, pure UI formatters (optional)
-├── data/                   # Endpoint/DataSource, DTOs, Mapper, RepositoryImpl
+├── helpers/                # Pure feature-local enums, constants, formatters (cross-feature -> package utils/)
+├── data/                   # Endpoint/DataSource, DTOs, Mapper, RepositoryImpl (no UI/device/feature SDKs)
 ├── domain/
 │   ├── entities/           # Pure domain models
 │   ├── repositories/       # Abstract/Protocol repository contracts
 │   └── usecases/           # *UseCase + *ErrorUseCase (core logic lives here)
 └── presentation/
     ├── <coordinator>/      # Cubit/State, ViewModel/UiState, TimelineProvider
-    └── ui/                 # Page/Screen/ViewController + widgets/components (when reused/large)
+    ├── helpers/            # UI-only helpers (BuildContext, styles, input formatters) (optional)
+    └── ui/                 # Page/Screen/ViewController + widgets/ (also wraps external UI/device/feature SDKs)
 ```
 
 ## 2. Error, Popup, Toast & Inline Convention
@@ -32,18 +33,27 @@ Keep UI rendering and UI handling in the same View class with 4 ordered sections
 3. `// MARK: - UI Rendering` — Main `build`/`body`/`setupUI` composes layout from dedicated section methods (`_buildHeaderSection`, `_buildFormSection`, etc.).
 4. `// MARK: - UI Handlers & Listeners` — User action callbacks, state listener (`_handleStateChanged`), navigation, and popup/toast helpers.
 
-## 4. Platform Adapters
+## 4. External Libs & Helpers Rules
+- **External Libs / SDKs:**
+  - *Feature / Device / UI SDKs* (`ekyc`, `biometrics`, `local_auth`, `device_info_plus`, `camera`, `webview`, `lottie`, etc.): Import **only in `presentation/`** (wrap in a dedicated widget/helper/service under `presentation/`, never scatter raw SDK calls in `build()`). **Never import in `domain/` or `data/`**; pass only pure values into `Coordinator -> UseCase`.
+  - *Data Infrastructure Libs* (HTTP client, `freezed`/`json_serializable`, local/secure storage, payload crypto/signing): Allowed in `data/` for transport/serialization/persistence; never import in `domain/` or `presentation/`.
+  - *`domain/`*: Pure language code only (no UI frameworks or 3rd-party SDKs).
+- **Helpers & Shared Utilities:**
+  - *Scope:* Feature-local pure helpers go in `feature/<name>/helpers/`; cross-feature (`>= 2` features) helpers go in package/app-level `utils/` or `shared/helpers/`.
+  - *Layer Purity:* Pure stateless helpers may be used by `domain/` and `presentation/`. UI helpers (importing UI frameworks, `BuildContext`, styles) belong only in `presentation/helpers/` or `shared/presentation/`. Never put API/SDK calls or mutable state in `helpers/`.
+
+## 5. Platform Adapters
 
 | Layer | Flutter / Dart *(ref: `authen_v2/feature/manager_devices`)* | Android *(Kotlin)* | iOS *(Swift)* |
 |---|---|---|---|
-| **Coordinator & State** | `*_cubit.dart` + `*_state.dart` (`sealed class`, no Freezed) | `*ViewModel` + `StateFlow` / `sealed interface *UiState` | `*ViewModel` / `TimelineProvider` + `enum *State` |
+| **Coordinator & State** | `*_cubit.dart` + `*_state.dart` (`sealed class` or `@freezed`, immutable; match feature's existing style) | `*ViewModel` + `StateFlow` / `sealed interface *UiState` | `*ViewModel` / `TimelineProvider` + `enum *State` |
 | **View** | `ui/*_page.dart` + `ui/widgets/` | `ui/*Screen.kt` / `Fragment` + `components/` | `Views/*View.swift` / `*ViewController.swift` + `Components/` |
 | **Domain** | `*Usecase` + `*ErrorUsecase` | `*UseCase` + `*ErrorUseCase` | `*UseCase` + `*ErrorUseCase` |
 | **Data** | `endpoint.dart` + DTO (`freezed`/`json_serializable`) + `RepositoryImpl` | API Service + DTO + `RepositoryImpl` | Endpoint/DataSource + `Codable` DTO + `RepositoryImpl` |
 | **DI** | `di.dart` (`<Feature>DI.register()` via `getIt`) | Hilt `@Module` / Koin `module` | `*DI` container / Factory |
 | **Verify** | `dart format`, `flutter analyze`, `flutter test` | `./gradlew lint`, unit tests | `xcodebuild` / `swiftlint` / XCTest |
 
-## 5. Execution Workflow & Self-Review
+## 6. Execution Workflow & Self-Review
 1. **Inventory:** Read existing feature/sibling patterns (`di`, `usecase`, `state`) before editing.
 2. **Contract First:** Define `UseCase` methods, `Outcome`/`Result`, `Repository` interface, and `UIState`.
 3. **Implement Inside-Out:** `Domain (Entity, Repo, ErrorUseCase, UseCase)` -> `Data` -> `DI` -> `Presentation`.
