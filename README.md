@@ -130,7 +130,8 @@ flowchart LR
 | **Anti-God-Function** | `execute()` ~25–35 dòng như mục lục; tối đa 2 cấp UseCase (`Orchestrator -> Atomic`). |
 | **Control Flow** | Lồng `if/else` tối đa **2 cấp**; ưu tiên guard clause & `switch`. |
 | **Single-Class View** | 4 section `// MARK: -`: `Properties & Dependencies`, `Lifecycle`, `UI Rendering`, `UI Handlers & Listeners`. |
-| **Immutable State** | Hỗ trợ cả `sealed class` và `@freezed` (khớp theo style sẵn có của feature). |
+| **Exhaustive State** | Immutable & exhaustive `switch`: Dart `sealed class`/`@freezed`, Kotlin `sealed interface`, Swift `enum`. |
+| **Single Model** | 1 model ở `domain/entities/` cho case 1-1 (`fromJson` chỉ gọi ở `Data`); tách `DTO` ở `data/` khi lệch schema. |
 | **External SDK Scope** | Feature/Device/UI SDK chỉ ở `Presentation`; HTTP/Storage/Serialization lib ở `Data`; `Domain` thuần. |
 | **Helpers Purity** | Pure helper ở `helpers/` (local) hoặc `utils/` (shared); UI helper chỉ ở `presentation/helpers/`. |
 

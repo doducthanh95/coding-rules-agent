@@ -10,9 +10,9 @@ description: Multi-platform Clean Architecture 3-layer workflow, templates, and 
 feature/<feature_name>/
 ├── di.*                    # Dependency wiring: Data -> Domain -> Presentation
 ├── helpers/                # Pure feature-local enums, constants, formatters (cross-feature -> package utils/)
-├── data/                   # Endpoint/DataSource, DTOs, Mapper, RepositoryImpl (no UI/device/feature SDKs)
+├── data/                   # Endpoint/DataSource, RepositoryImpl, optional DTOs (only when schema differs from Domain)
 ├── domain/
-│   ├── entities/           # Pure domain models
+│   ├── entities/           # Single domain models (pure serialization annotations allowed; only data/ calls fromJson/toJson)
 │   ├── repositories/       # Abstract/Protocol repository contracts
 │   └── usecases/           # *UseCase + *ErrorUseCase (core logic lives here)
 └── presentation/
@@ -49,7 +49,7 @@ Keep UI rendering and UI handling in the same View class with 4 ordered sections
 | **Coordinator & State** | `*_cubit.dart` + `*_state.dart` (`sealed class` or `@freezed`, immutable; match feature's existing style) | `*ViewModel` + `StateFlow` / `sealed interface *UiState` | `*ViewModel` / `TimelineProvider` + `enum *State` |
 | **View** | `ui/*_page.dart` + `ui/widgets/` | `ui/*Screen.kt` / `Fragment` + `components/` | `Views/*View.swift` / `*ViewController.swift` + `Components/` |
 | **Domain** | `*Usecase` + `*ErrorUsecase` | `*UseCase` + `*ErrorUseCase` | `*UseCase` + `*ErrorUseCase` |
-| **Data** | `endpoint.dart` + DTO (`freezed`/`json_serializable`) + `RepositoryImpl` | API Service + DTO + `RepositoryImpl` | Endpoint/DataSource + `Codable` DTO + `RepositoryImpl` |
+| **Data** | `endpoint.dart` + `RepositoryImpl` + optional `DTO` (`freezed`/`json_serializable` when schema diverges) | API Service + `RepositoryImpl` + optional `DTO` | Endpoint/DataSource + `RepositoryImpl` + optional `Codable DTO` |
 | **DI** | `di.dart` (`<Feature>DI.register()` via `getIt`) | Hilt `@Module` / Koin `module` | `*DI` container / Factory |
 | **Verify** | `dart format`, `flutter analyze`, `flutter test` | `./gradlew lint`, unit tests | `xcodebuild` / `swiftlint` / XCTest |
 

@@ -21,7 +21,11 @@ For full folder templates, platform adapters, and the 4-step checklist when impl
 7. **Helpers & Shared Utilities:**
    - **Scope:** Feature-local helpers go in `feature/<name>/helpers/`; cross-feature (`>= 2` features) helpers go in package/app-level `utils/` or `shared/helpers/`.
    - **Layer Purity:** Pure stateless helpers (no UI imports, no side-effects) may be used by `Domain` and `Presentation`. UI helpers (importing UI frameworks, `BuildContext`, styles) belong only in `presentation/helpers/` or `shared/presentation/`, never in `Domain` or `Data`. Never put API/SDK calls or mutable state in `helpers/`.
-8. **Immutable State (`sealed class` or `@freezed`):** UI `State` must be immutable and support exhaustive `switch`/`when` handling. In Flutter, both Dart `sealed class` and `@freezed` are valid; match the existing convention when editing an existing feature.
+8. **Immutable Exhaustive State & Outcome:** UI `State` and `UseCase` `Outcome` must be immutable and support exhaustive `switch`/`when` handling: **Flutter/Dart** uses `sealed class` or `@freezed` (match the feature's existing style); **Android/Kotlin** uses `sealed interface` / `sealed class`; **iOS/Swift** uses `enum` (with associated values).
+9. **Pragmatic Single Model (No Redundant DTO + Entity):**
+   - **Default (1-1 schema):** Create **only 1 class** in `domain/entities/` (pure serialization metadata such as `@freezed`/`@JsonSerializable` in Dart, `Codable` in Swift, or `@SerializedName` in Kotlin is allowed for `fromJson`/`toJson` codegen). **Only `Data`** may call `fromJson`/`toJson`; never import HTTP clients (`dio`), `BaseResponseModel`, or UI frameworks into `domain/entities/`.
+   - **Exception (divergent schema):** Split a separate `DTO` in `data/models/` + `toEntity()` only when the API JSON is deeply nested, aggregates multiple endpoints, contains excessive unused fields, or changes structure/type in a way that shouldn't leak to `UseCase`/`UI`.
+   - **Primitive returns:** Return raw primitives (`String`, `int`, `bool`, `void`) directly when no model class is needed.
 
 ---
 
