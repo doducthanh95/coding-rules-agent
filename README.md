@@ -83,7 +83,45 @@ flowchart TD
 
 ---
 
-## 4. Tóm tắt Quy chuẩn
+## 4. Giao tiếp & Kết nối giữa các Feature
+
+```mermaid
+flowchart LR
+    subgraph FA["Feature A (VD: Register Device)"]
+        FA_UI["Presentation (View)"]
+        FA_UC["Domain (UseCase)"]
+    end
+
+    subgraph Shared["Cấp Package / Shared Bridge (Không phụ thuộc ngược Feature)"]
+        Router["Router / Navigation<br/>(Pure Params & Result)"]
+        SharedUC["Shared Domain / UseCase<br/>(VD: Common OTP, Session)"]
+        EventBus["Shared Event / State Stream<br/>(VD: AuthEvent, Logout)"]
+    end
+
+    subgraph FB["Feature B (VD: Common OTP / Biometric)"]
+        FB_UI["Presentation (View)"]
+        FB_UC["Domain (UseCase)"]
+    end
+
+    FA_UI -->|"1. Điều hướng + Args"| Router --> FB_UI
+    FB_UI -.->|"Trả kết quả thuần"| Router -.-> FA_UI
+
+    FA_UC -->|"2. Tái sử dụng logic"| SharedUC
+    FB_UC -->|"2. Tái sử dụng logic"| SharedUC
+
+    FA_UC -->|"3. Phát / Nghe sự kiện"| EventBus
+    FB_UC -->|"3. Phát / Nghe sự kiện"| EventBus
+
+    FA -. "CẤM import chéo trực tiếp<br/>(data/cubit/internal)" .-> FB
+```
+
+- **Chuyển màn hình:** Đi qua **Router** bằng tham số/kết quả thuần (không mở trực tiếp `Cubit` hoặc `Data` của feature khác).
+- **Dùng chung nghiệp vụ:** Đưa logic/contract dùng chung ra **Shared Domain / UseCase** hoặc `utils/` cấp package (tối đa 2 cấp `Orchestrator -> Atomic`).
+- **Giao tiếp bất đồng bộ / tách rời:** Dùng **Event / Stream** dùng chung ở cấp package.
+
+---
+
+## 5. Tóm tắt Quy chuẩn
 
 | Quy tắc | Trọng tâm |
 |---|---|
@@ -98,7 +136,7 @@ flowchart TD
 
 ---
 
-## 5. Cấu trúc Repo
+## 6. Cấu trúc Repo
 
 ```text
 coding-rules-agent/
@@ -116,7 +154,7 @@ coding-rules-agent/
 
 ---
 
-## 6. Cài đặt & Tích hợp
+## 7. Cài đặt & Tích hợp
 
 ### A. Antigravity
 - **Global Plugin:**
