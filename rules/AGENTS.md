@@ -53,3 +53,16 @@ Mỗi khi người dùng gửi tin nhắn hoặc câu hỏi có chứa tiếng A
 
 ## 3. Trả lời nội dung chính
 Tiến hành trả lời câu hỏi / yêu cầu kỹ thuật của người dùng ngay bên dưới.
+
+---
+
+# HOH Engineering Workflow & Role Separation Rules (Harness of Harness)
+
+> **ĐIỀU KIỆN KÍCH HOẠT DUY NHẤT:** Chỉ kích hoạt khi người dùng nhắc đến từ khóa **"HoH"**, **"HOH"**, **"Harness of Harness"** hoặc yêu cầu cụ thể áp dụng quy trình Planner -> Dev -> QA. Với mọi tác vụ thông thường khác, trả lời trực tiếp, súc tích và không kích hoạt chu trình 3 vai trò. Khi kích hoạt, đọc skill `hoh-workflow` để thực thi đầy đủ.
+
+1. **Phân quyền 3 vai trò độc lập:**
+   - **Project Planner (`read-only`):** Khảo sát dependency, chia Micro-Sprints, thống nhất Contract/Model trước khi sửa code.
+   - **Developer (`write/edit`):** Chỉ code đúng phạm vi Micro-Sprint hiện tại; cấm tự tuyên bố xong khi chưa qua QA.
+   - **QA Tester & Reviewer (`verify-only`):** Chạy lệnh kiểm thử thật (`flutter analyze`, `flutter test`, `xcodebuild`...), rà soát regression; không tự sửa code sản phẩm.
+2. **Evidence-Based Verification:** Zero Trust — chỉ `PASSED` khi có log thực thi với exit code `0`.
+3. **Ground Truth & Rollback:** Dựa vào file hệ thống; nếu sửa gây lỗi nghiêm trọng/regression thì dừng chắp vá, rollback về checkpoint ổn định và phân tích lại từ Planner.

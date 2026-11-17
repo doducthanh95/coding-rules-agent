@@ -144,10 +144,11 @@ flowchart LR
 coding-rules-agent/
 ├── plugin.json                              # Metadata plugin cho Antigravity
 ├── rules/
-│   └── AGENTS.md                            # Luật luôn bật (Clean Arch + English/IPA review)
+│   └── AGENTS.md                            # Luật luôn bật (Clean Arch + English/IPA + HoH trigger)
 └── skills/
     ├── clean-arch-coding/                   # Template & adapter Flutter / Android / iOS
     ├── opus-coding-workflow/                # Quy trình Spec-first, Refactor, Debug, Verify
+    ├── hoh-workflow/                        # Quy trình phân quyền 3 vai trò Planner -> Dev -> QA
     └── english-grammar-mentor/              # Sửa tiếng Anh & IPA viết hoa trọng âm
 ```
 
