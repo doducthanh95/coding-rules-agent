@@ -134,6 +134,7 @@ flowchart LR
 | **Single Model** | 1 model ở `domain/entities/` cho case 1-1 (`fromJson` chỉ gọi ở `Data`); tách `DTO` ở `data/` khi lệch schema. |
 | **External SDK Scope** | Feature/Device/UI SDK chỉ ở `Presentation`; HTTP/Storage/Serialization lib ở `Data`; `Domain` thuần. |
 | **Helpers Purity** | Pure helper ở `helpers/` (local) hoặc `utils/` (shared); UI helper chỉ ở `presentation/helpers/`. |
+| **Plain English** | Đặt tên & commit bằng từ tiếng Anh phổ thông (`get`, `load`, `add`, `fix`, `update`...), tránh từ hiếm/học thuật. |
 
 ---
 

@@ -26,6 +26,7 @@ For full folder templates, platform adapters, and the 4-step checklist when impl
    - **Default (1-1 schema):** Create **only 1 class** in `domain/entities/` (pure serialization metadata such as `@freezed`/`@JsonSerializable` in Dart, `Codable` in Swift, or `@SerializedName` in Kotlin is allowed for `fromJson`/`toJson` codegen). **Only `Data`** may call `fromJson`/`toJson`; never import HTTP clients (`dio`), `BaseResponseModel`, or UI frameworks into `domain/entities/`.
    - **Exception (divergent schema):** Split a separate `DTO` in `data/models/` + `toEntity()` only when the API JSON is deeply nested, aggregates multiple endpoints, contains excessive unused fields, or changes structure/type in a way that shouldn't leak to `UseCase`/`UI`.
    - **Primitive returns:** Return raw primitives (`String`, `int`, `bool`, `void`) directly when no model class is needed.
+10. **Plain & Common English (Naming & Commits):** Use simple, everyday English words familiar to developers for file/class/function/variable names and git commit messages (e.g., `get`, `load`, `save`, `check`, `show`, `add`, `fix`, `update`, `remove`). Avoid rare, academic, or overly formal words.
 
 ---
 
