@@ -7,7 +7,8 @@ Load this file ONLY when working on **iOS / macOS / watchOS Swift** projects.
 ```text
 Features/<FeatureName>/
 ├── DI/                         # <FeatureName>DI.swift (enum factory/container: Data -> Domain -> Presentation)
-├── Helpers/                    # Pure Swift feature-local enums, constants, formatters (cross-feature -> Shared/Helpers/)
+├── Util/                       # <FeatureName>Constants.swift (documented static constants; cross-feature -> App/Util/)
+├── Helpers/                    # Pure Swift feature-local algorithms & formatters (cross-feature -> Shared/Helpers/)
 ├── Data/                       # Omit when no API / DB / local storage
 │   ├── DataSources/
 │   ├── Models/                 # Optional Codable DTOs ONLY when API schema diverges
@@ -52,6 +53,7 @@ Features/<FeatureName>/
 | | DataSource | `<Feature>RemoteDataSource`, `<Feature>LocalDataSource` | `TransferRemoteDataSource` |
 | | DTO (when needed) | `<Noun>DTO` or `<Noun>Request` / `<Noun>Response` | `TransferRequest`, `TransferResponse` |
 | **DI** | Dependency Container | `<Feature>DI` (`enum`) | `TransferDI` |
+| **Util** | Constants | `<Feature>Constants` (`enum`, documented important constants) | `TransferConstants` |
 | **Presentation** | ViewModel | `<Feature>ViewModel` | `TransferViewModel` |
 | | UIState | `<Feature>UIState` (`enum`) | `TransferUIState` (`case initial`, `loading`, `loaded`, `error`) |
 | | Main View / VC | `<Feature>View` / `<Feature>ViewController` | `TransferView`, `TransferViewController` |

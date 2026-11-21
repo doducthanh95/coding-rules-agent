@@ -16,6 +16,7 @@ Before designing or writing code, **read ONLY the reference file matching the ac
 2. **Contract First:** Define `UseCase` methods, `Outcome` variants, `Repository` interface (if needed), and immutable `UIState`.
 3. **Implement Inside-Out:** `Domain` -> `Data` (if needed) -> `DI` -> `Presentation` (and secondary entry points if any).
 4. **Self-Review & Verify:**
+   - Zero hardcoded magic numbers in logic/config; important constants live in each feature's `Util/` (`util/`) constants file with clear doc comments.
    - Zero non-UI logic in `Presentation`; zero `if/else` nesting > 2 levels.
    - Zero cross-platform terminology leaks.
    - Run the platform's static analysis, build, and headless `UseCase` unit tests before finishing.

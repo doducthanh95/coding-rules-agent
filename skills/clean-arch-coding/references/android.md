@@ -7,7 +7,8 @@ Load this file ONLY when working on **Android / Kotlin** projects.
 ```text
 feature/<feature_name>/
 ├── di/                         # Hilt @Module or Koin module (Data -> Domain -> Presentation)
-├── helpers/                    # Pure Kotlin feature-local enums, constants, formatters (cross-feature -> utils/)
+├── util/                       # <Feature>Constants.kt (documented object constants; cross-feature -> core/util/)
+├── helpers/                    # Pure Kotlin feature-local algorithms & formatters (cross-feature -> utils/)
 ├── data/                       # Omit when no API / DB / local storage
 │   ├── datasource/             # ApiService / RemoteDataSource / LocalDataSource
 │   ├── model/                  # Optional DTOs (@SerializedName / @Serializable) ONLY when API schema diverges

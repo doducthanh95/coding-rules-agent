@@ -7,7 +7,8 @@ Load this file ONLY when working on **Flutter / Dart** projects.
 ```text
 feature/<feature_name>/
 ├── di.dart                     # <Feature>DI.register() via getIt (Data -> Domain -> Presentation)
-├── helpers/                    # Pure Dart feature-local enums, constants, formatters (cross-feature -> utils/)
+├── util/                       # <feature>_constants.dart (documented abstract class constants; cross-feature -> utils/)
+├── helpers/                    # Pure Dart feature-local algorithms & formatters (cross-feature -> utils/)
 ├── data/                       # Omit when no API / DB / local storage
 │   ├── endpoint.dart
 │   ├── models/                 # Optional DTOs (@freezed / @JsonSerializable) ONLY when API schema diverges
@@ -52,6 +53,7 @@ feature/<feature_name>/
 | | Endpoint / DataSource | `<Feature>Endpoint`, `<Feature>RemoteDataSource`, `<Feature>LocalDataSource` | `TransferEndpoint`, `TransferRemoteDataSource` |
 | | DTO (when needed) | `<Noun>Dto` or `<Noun>Request` / `<Noun>Response` | `TransferRequest`, `TransferResponse` |
 | **DI** | Dependency Injection | `<Feature>DI` | `TransferDI` |
+| **Util** | Constants | `<Feature>Constants` (`abstract class`, documented important constants) | `TransferConstants` |
 | **Presentation** | Cubit | `<Feature>Cubit` | `TransferCubit` |
 | | State | `<Feature>State` + `<Feature><Status>` (or single state + `enum <Feature>Status`) | `TransferState`, `TransferInitial`, `TransferLoading`, `TransferLoaded`, `TransferError` |
 | | Main Page | `<Feature>Page` | `TransferPage` |

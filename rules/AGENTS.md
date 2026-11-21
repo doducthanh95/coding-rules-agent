@@ -24,6 +24,11 @@ Never mix types, folder names, or idioms from the other two platforms.
    - *Logic / Device-SDK Feature (no API/DB):* `Domain` + `Presentation` (+ `DI`); omit `Data`.
    - *Pure UI / Static Screen:* `Presentation` UI only; omit `Domain`, `Data`, `DI`.
    - *Minimum Domain Verification:* Verify `UseCase` business logic with headless unit tests alongside platform lint/build checks.
+7. **No Hardcoded Magic Constants (`Util/`):**
+   - Never hardcode magic numbers, thresholds, timeouts, quotas, memory/token budgets, or domain rules inline in code.
+   - Extract feature-scoped constants into a dedicated constants container (`<Feature>Constants` — `enum` in Swift, `object` in Kotlin, `abstract class` in Dart) inside that feature's `Util/` (`util/` on Android/Flutter) folder; place cross-feature constants in `App/Util/` or shared `utils/` / `core/util/`.
+   - **Mandatory documentation:** Every important constant (RAM/context/token budgets, audio/DSP tuning, grading thresholds, algorithm coefficients, timeouts/quotas) MUST include a clear doc comment (`///` or `/** ... */`) explaining its purpose, unit, and rationale/impact.
+   - Pure mathematical identities (`0`, `1`), standard protocol ranges (`200..<300`), and one-off local UI layout metrics may remain inline unless shared as design tokens.
 
 ---
 

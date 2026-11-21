@@ -75,7 +75,8 @@ flowchart TD
     Pkg["package/lib/"] --> Utils["utils/ (Cross-feature pure helpers, >= 2 features)"]
     Pkg --> Feat["feature/<name>/"]
     Feat --> DI["di.* (Wire Data -> Domain -> Presentation)"]
-    Feat --> Helpers["helpers/ (Feature-local pure helpers, enums, constants)"]
+    Feat --> Util["util/ (Feature-local documented constants)"]
+    Feat --> Helpers["helpers/ (Feature-local pure helpers, formatters)"]
     Feat --> Data["data/ (endpoint, models/DTO, repositories_impl)"]
     Feat --> Domain["domain/ (entities, repositories, usecases)"]
     Feat --> Pres["presentation/ (cubit/vm, helpers/, ui/, widgets/)"]
@@ -134,6 +135,7 @@ flowchart LR
 | **Single Model** | 1 model ở `domain/entities/` cho case 1-1 (`fromJson` chỉ gọi ở `Data`); tách `DTO` ở `data/` khi lệch schema. |
 | **External SDK Scope** | Feature/Device/UI SDK chỉ ở `Presentation`; HTTP/Storage/Serialization lib ở `Data`; `Domain` thuần. |
 | **Helpers Purity** | Pure helper ở `helpers/` (local) hoặc `utils/` (shared); UI helper chỉ ở `presentation/helpers/`. |
+| **No Magic Constants** | Không fix cứng số/ngưỡng inline; gom `<Feature>Constants` vào `util/` (hoặc `utils/`/`App/Util/`) và ghi doc comment cho hằng số quan trọng. |
 | **Plain English** | Đặt tên & commit bằng từ tiếng Anh phổ thông (`get`, `load`, `add`, `fix`, `update`...), tránh từ hiếm/học thuật. |
 
 ---
