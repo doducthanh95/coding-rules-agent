@@ -23,6 +23,8 @@ flowchart LR
 - **Design (`app-design-pipeline`):** Chặn UI lộn xộn bằng 6 Quality Gates (`ui-ux-pro-max` + `mobile-design` + `stitch-ui-design`), tạo `DESIGN.md` và render màn hình qua **Stitch MCP** trước khi lập trình.
 - **Code (`clean-arch-coding` + `opus-coding-workflow`):** Code từ trong ra ngoài (`Domain -> Data -> DI -> Presentation`), tuân thủ `UseCase <-> Presentation` hard boundary, `Util/` constants, và verify bằng lệnh build/test thật (kích hoạt `hoh-workflow` khi cần phân quyền Planner -> Dev -> QA).
 
+> 📖 **Xem hướng dẫn chi tiết từng bước & giải thích đầy đủ các thành phần tại:** [`docs/WORKFLOW_GUIDE.md`](docs/WORKFLOW_GUIDE.md)
+
 ---
 
 ## 1. Kiến trúc 3 tầng & Phạm vi phụ thuộc
@@ -166,6 +168,9 @@ flowchart LR
 ```text
 coding-rules-agent/
 ├── plugin.json                              # Metadata plugin cho Antigravity
+├── README.md                                # Tổng quan kiến trúc & hướng dẫn cài đặt
+├── docs/
+│   └── WORKFLOW_GUIDE.md                    # Hướng dẫn từng bước & giải thích chi tiết các thành phần
 ├── rules/
 │   └── AGENTS.md                            # Luật luôn bật (End-to-End SDD/Design + Clean Arch + English/IPA + HoH)
 └── skills/
