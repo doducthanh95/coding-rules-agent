@@ -189,6 +189,7 @@ coding-rules-agent/
     ├── ui-ux-pro-max/                       # Thư viện style, color palette, typography & UX audit
     ├── mobile-design/                       # Chuẩn thiết kế mobile iOS/Android & touch psychology
     ├── stitch-ui-design/                    # Hướng dẫn viết prompt chuẩn cho Google Stitch MCP
+    ├── motion-design/                       # Nguyên lý animation, timing, easing & micro-interactions (LottieFiles)
     ├── # ── Coding & Engineering Workflow ──
     ├── clean-arch-coding/                   # Template & adapter Flutter / Android / iOS
     ├── opus-coding-workflow/                # Quy trình Spec-first, Refactor, Debug, Verify

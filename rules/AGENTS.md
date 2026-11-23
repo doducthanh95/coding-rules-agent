@@ -16,8 +16,8 @@ speckit-plan ─▶ speckit-tasks ─▶ speckit-analyze ─▶ speckit-implemen
 - **Design Phase (`app-design-pipeline`):** Always check project root for `DESIGN.md` first:
   - **Mode A (First-Time Setup):** `DESIGN.md` missing → run full 6 steps (Screen Budget → Dribbble Reference → `DESIGN.md` → 6 Quality Gates → Stitch MCP → Code Handoff).
   - **Mode B (Incremental Fast Path):** `DESIGN.md` exists (with locked `stitch_project_id` & `stitch_design_system`) → skip Dribbble/style discovery and go directly from Screen Budget → 6 Quality Gates → Stitch `generate_screen_from_text` → Code Handoff.
-  - Combine `ui-ux-pro-max`, `mobile-design`, and `stitch-ui-design` during Gate 4.
-- **Engineering Phase (`opus-coding-workflow` + `clean-arch-coding`):** Implement inside-out (`Domain -> Data -> DI -> Presentation`) referencing both `spec.md` (business contract) and `DESIGN.md` + approved Stitch screens (visual contract), then verify with real build/test/device checks.
+  - Combine `ui-ux-pro-max`, `mobile-design`, `stitch-ui-design`, and `motion-design` (for `DESIGN.md` motion identity & UI micro-interactions).
+- **Engineering Phase (`opus-coding-workflow` + `clean-arch-coding`):** Implement inside-out (`Domain -> Data -> DI -> Presentation`) referencing both `spec.md` (business contract) and `DESIGN.md` + approved Stitch screens (visual & motion contract), applying `motion-design` for transitions/feedback animations, then verify with real build/test/device checks.
 
 ---
 

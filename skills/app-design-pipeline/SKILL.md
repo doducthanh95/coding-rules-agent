@@ -39,6 +39,7 @@ Before starting, check whether `DESIGN.md` already exists in the project root:
   2. Extract two layers into `DESIGN.md` in the project root (and include `stitch_project_id` + `stitch_design_system` metadata once created in Step 5 so future features trigger **Mode B Fast Path** automatically):
      - **Visual Tokens:** Background (pastel mesh / light / dark), card surface & opacity, primary/category accents, typography (`BE_VIETNAM_PRO` + `JETBRAINS_MONO` for Stitch preview → `SF Pro` + `SF Mono` on iOS), corner radius, shadow vs hairline.
      - **Layout Architecture:** Spatial pattern (Open Breathing Stage, Bento Grid, Chat + Voice Wave, Stacked Deck, Center-FAB Tab Bar).
+     - **Motion Identity (`motion-design`):** Select 1 Motion Personality (`Playful` / `Premium` / `Corporate` / `Energetic`), signature easing, and 3-tier duration palette (quick / standard / slow) — especially when the Dribbble reference is an `.mp4` motion clip.
 - **Output:** Project `DESIGN.md`.
 
 ## Step 4: Enforce 6 Design Quality Gate Rules
@@ -57,7 +58,7 @@ Combine `ui-ux-pro-max` (query `--domain style` and `--domain color` individuall
 4. Download rendered PNGs via `download_file(name: screenshot.name)` and visually inspect every PNG with `read_file` against the 6 Quality Gate rules. Fix any text wrapping or overlap with `edit_screens` (and re-apply `apply_design_system` without the `assets/` prefix if style drifts).
 
 ## Step 6: Engineering Handoff (UI-Only Refactor)
-- **Actions:** Implement approved Stitch screens + `DESIGN.md` tokens into the target UI framework (SwiftUI / Flutter / Web) while keeping `Domain/`, `Data/`, and `ViewModel/` logic untouched, then build and verify on a real device.
+- **Actions:** Implement approved Stitch screens + `DESIGN.md` tokens into the target UI framework (SwiftUI / Flutter / Web) while keeping `Domain/`, `Data/`, and `ViewModel/` logic untouched. Apply `motion-design` (timing, easing, 1/3 rules, micro-interactions, loading/success/error states) for all UI transitions and animations, then build and verify on a real device.
 
 ---
 

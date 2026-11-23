@@ -29,7 +29,7 @@ flowchart TD
 | Giai đoạn | Skill / Rule tham gia | Đầu vào (Input) | Đầu ra (Artifact) | Cổng kiểm soát (Gate) |
 |---|---|---|---|---|
 | **1. Spec** | `speckit-constitution`, `speckit-specify`, `speckit-clarify`, `speckit-converge`, `speckit-checklist` | Mô tả ý tưởng tự nhiên | `.specify/memory/constitution.md`, `specs/<feature>/spec.md` | Spec không còn `[NEEDS CLARIFICATION]`, chốt edge cases |
-| **2. Design** | `app-design-pipeline`, `ui-ux-pro-max`, `mobile-design`, `stitch-ui-design` | `spec.md` (hoặc `UI_SPEC_REQUIREMENTS.md`) | `DESIGN.md` (root), Stitch Project + PNG screens đã duyệt | Đạt đủ **6 Design Quality Gates**, không cắt chữ (`...`), đúng layout Dribbble |
+| **2. Design** | `app-design-pipeline`, `ui-ux-pro-max`, `mobile-design`, `stitch-ui-design`, `motion-design` | `spec.md` (hoặc `UI_SPEC_REQUIREMENTS.md`) | `DESIGN.md` (root + Motion Identity), Stitch Project + PNG screens đã duyệt | Đạt đủ **6 Design Quality Gates**, không cắt chữ (`...`), đúng layout Dribbble |
 | **3. Plan** | `speckit-plan`, `speckit-tasks`, `speckit-analyze` | `spec.md` + `DESIGN.md` + `constitution.md` | `plan.md`, `tasks.md`, `contracts/` | Nhất quán 100% giữa Spec, Design và Clean Architecture |
 | **4. Code** | `rules/AGENTS.md`, `opus-coding-workflow`, `clean-arch-coding`, `hoh-workflow` | `plan.md`, `tasks.md`, Stitch screens | Code theo 3 tầng (`Domain -> Data -> DI -> Presentation`) + `Util/` constants | Không rò rỉ logic vào UI, không DTO 1-1, không magic number |
 | **5. Verify** | `opus-coding-workflow` (hoặc `hoh-workflow` QA) | Code + Unit Tests | Log `flutter test` / `xcodebuild` / `./gradlew` exit code `0` | Pass 100% build, lint, headless `UseCase` test & real device |
@@ -75,6 +75,7 @@ Các skill này dựa trên GitHub **Spec-Kit** (yêu cầu project đã khởi 
 - **`ui-ux-pro-max`:** Cung cấp thư viện tra cứu style, bảng màu, font pairing, UX guidelines và stack hints (`swiftui`, `flutter`, `react-native`...).
 - **`mobile-design`:** Bộ chuẩn thiết kế riêng cho iOS/Android (touch target `>= 44×44pt`, thumb zone, bottom sheet vs modal, native tab bar).
 - **`stitch-ui-design`:** Kỹ thuật viết prompt chuẩn xác cho **Google Stitch MCP** (`generate_screen_from_text`, `edit_screens`, `create_design_system`).
+- **`motion-design` (Animation & Micro-interactions):** Chuẩn hoá chuyển động UI theo 3 trụ cột (*Emotional Intent, Visual Narrative, Motion Craft*), chọn **Motion Personality** (`Playful`, `Premium`, `Corporate`, `Energetic`), bộ duration/easing và quy tắc 1/3. Dùng ở **Bước 3 của `app-design-pipeline`** (ghi Motion Identity vào `DESIGN.md`) và **Bước 6 / `speckit-implement`** (code animation SwiftUI, Flutter, CSS/GSAP/Lottie).
 
 ---
 
