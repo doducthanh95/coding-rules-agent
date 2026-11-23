@@ -13,10 +13,11 @@ Before designing or writing code, **read ONLY the reference file matching the ac
 
 ## 1. Execution Workflow
 1. **Inventory:** Read the matching `references/<platform>.md` and inspect 1 sibling feature in the codebase (`DI`, `UseCase`, `State`) before editing.
-2. **Contract First:** Define `UseCase` methods, `Outcome` variants, `Repository` interface (if needed), and immutable `UIState`.
+2. **Contract First:** Define `UseCase` methods, `Outcome` variants, `Repository` interface (if needed), single models in `domain/entities/` (justify any `data/models/` DTO explicitly against the 3 divergence criteria before creating it), and immutable `UIState`.
 3. **Implement Inside-Out:** `Domain` -> `Data` (if needed) -> `DI` -> `Presentation` (and secondary entry points if any).
 4. **Self-Review & Verify:**
-   - Zero hardcoded magic numbers in logic/config; important constants live in each feature's `Util/` (`util/`) constants file with clear doc comments.
+   - **Single-Model Check:** Zero 1-to-1 duplicate `DTO` <-> `Entity` pairs (if `data/models/` mirrors `domain/entities/`, collapse into `domain/entities/` and delete `data/models/`).
+   - **Constants Check:** Zero hardcoded magic numbers in logic/config; important constants live in each feature's `Util/` (`util/`) constants file with clear doc comments explaining meaning, unit, and rationale.
    - Zero non-UI logic in `Presentation`; zero `if/else` nesting > 2 levels.
    - Zero cross-platform terminology leaks.
    - Run the platform's static analysis, build, and headless `UseCase` unit tests before finishing.

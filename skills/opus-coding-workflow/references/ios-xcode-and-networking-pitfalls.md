@@ -13,7 +13,7 @@ Load this file only when debugging or modifying iOS / Xcode / Swift networking p
 
 ## Swift Types, Access Control & Decodable
 - Cross-module subclassing requires `public`/`open` `init` on the superclass.
-- Inheritance clause: superclass must appear before protocols (`class AppResponse<T: Decodable>: CoreBaseResponse, Decodable`).
+- Inheritance clause: superclass must appear before protocols (`class AppResponse<T: Decodable>: BaseResponse, Decodable`).
 - Non-final `Decodable` subclasses: mark `init(from:)` as `required`; call `try super.init(from: decoder)` if superclass is `Decodable`; avoid redundant `, Decodable`; do not shadow superclass stored properties like `message`.
 - Default arguments of `public init` cannot reference `internal` symbols.
 - `Result.failure` always requires a payload (`Result.failure(error)`).
@@ -21,6 +21,6 @@ Load this file only when debugging or modifying iOS / Xcode / Swift networking p
 
 ## Networking & Monorepo Type Disambiguation
 - Monorepo shared names (`BaseResponse.swift`, `BaseError.swift`, `BaseResponseModel.swift`): run `find` + `grep` across all modules to list every definition (class vs struct) and confirm target path with the user before patching.
-- Contract drift in demo/type-erased wrappers: fix at the boundary adapter (e.g. wrap `BaseResponseModel<Data>` -> `AnyBaseResponse`) rather than rewriting all call sites; normalize internal errors (`CoreBaseError -> Error`) at public `completion` boundaries; check `init(code:message:)` availability on `CoreBaseError`.
-- Token-refresh queue: ensure HTTP client surfaces 401 as an error with `statusCode` (not success-data); safely cast `err as? CoreBaseError` before reading error codes; verify end-to-end with deterministic fixture (e.g. `https://httpbin.org/bearer`).
-- When updating shared contracts (`DomainNetwork.init`, `ApiHelper.request<R>`), grep all sibling modules in the workspace and remove dead mapper fields/params once unused.
+- Contract drift in type-erased wrappers: fix at the boundary adapter rather than rewriting all call sites; normalize internal errors to `Error` at public `completion` boundaries.
+- Token-refresh queue: ensure HTTP client surfaces 401 as an error with `statusCode` (not success-data); safely cast to the project's error type before reading error codes; verify end-to-end with a deterministic fixture (e.g. `https://httpbin.org/bearer`).
+- When updating shared networking contracts, grep all sibling modules in the workspace and remove dead mapper fields/params once unused.

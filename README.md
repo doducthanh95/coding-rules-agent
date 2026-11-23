@@ -1,6 +1,27 @@
 # coding-rules-agent
 
-Bộ **Coding Standard** & **Engineering Workflow** cho AI Coding Agent (Antigravity, Codex, Claude Code) trên **Flutter, Android, iOS**.
+Bộ **Spec-Driven Development (SDD)**, **App UI/UX Design Pipeline**, **Clean Architecture Coding Standard**, và **Engineering Workflow** cho AI Coding Agent (Antigravity, Codex, Claude Code) trên **Flutter, Android, iOS**.
+
+---
+
+## 0. Quy trình Phát triển Phần mềm End-to-End (Spec → Design → Code → Verify)
+
+```mermaid
+flowchart LR
+    S0["speckit-constitution<br/>(Nguyên tắc dự án)"] --> S1["speckit-specify<br/>(spec.md)"]
+    S1 --> S2["speckit-clarify / converge<br/>(Chốt edge cases)"]
+    S2 --> D1{"DESIGN.md<br/>đã tồn tại?"}
+    D1 -- "Chưa (Mode A)" --> D2["app-design-pipeline<br/>Dribbble ➔ DESIGN.md ➔ 6 Gates ➔ Stitch"]
+    D1 -- "Có rồi (Mode B Fast Path)" --> D3["app-design-pipeline<br/>Screen Budget ➔ 6 Gates ➔ Stitch"]
+    D2 --> P1["speckit-plan + tasks<br/>(Contract + DESIGN.md)"]
+    D3 --> P1
+    P1 --> C1["speckit-implement<br/>(opus-coding-workflow + clean-arch-coding)"]
+    C1 --> V1["Verify<br/>(Unit Test + Lint + Real Device)"]
+```
+
+- **Spec (`speckit-*`):** Chuẩn hoá yêu cầu thành `spec.md` trước khi thiết kế hay viết code.
+- **Design (`app-design-pipeline`):** Chặn UI lộn xộn bằng 6 Quality Gates (`ui-ux-pro-max` + `mobile-design` + `stitch-ui-design`), tạo `DESIGN.md` và render màn hình qua **Stitch MCP** trước khi lập trình.
+- **Code (`clean-arch-coding` + `opus-coding-workflow`):** Code từ trong ra ngoài (`Domain -> Data -> DI -> Presentation`), tuân thủ `UseCase <-> Presentation` hard boundary, `Util/` constants, và verify bằng lệnh build/test thật (kích hoạt `hoh-workflow` khi cần phân quyền Planner -> Dev -> QA).
 
 ---
 
@@ -146,8 +167,24 @@ flowchart LR
 coding-rules-agent/
 ├── plugin.json                              # Metadata plugin cho Antigravity
 ├── rules/
-│   └── AGENTS.md                            # Luật luôn bật (Clean Arch + English/IPA + HoH trigger)
+│   └── AGENTS.md                            # Luật luôn bật (End-to-End SDD/Design + Clean Arch + English/IPA + HoH)
 └── skills/
+    ├── # ── Spec-Driven Development (Spec-Kit) ──
+    ├── speckit-constitution/                # Khởi tạo / cập nhật constitution.md của dự án
+    ├── speckit-specify/                     # Tạo feature spec.md từ mô tả tự nhiên
+    ├── speckit-clarify/                     # Làm rõ các điểm mơ hồ trong spec.md
+    ├── speckit-converge/                    # Hội tụ & chốt spec trước khi plan
+    ├── speckit-plan/                        # Lập implementation plan từ spec.md + DESIGN.md
+    ├── speckit-tasks/                       # Chia nhỏ task thực thi
+    ├── speckit-analyze/                     # Kiểm tra tính nhất quán spec <-> plan <-> tasks
+    ├── speckit-checklist/                   # Sinh checklist kiểm thử/review theo domain
+    ├── speckit-implement/                   # Thực thi toàn bộ tasks theo plan
+    ├── # ── UI/UX Design Pipeline ──
+    ├── app-design-pipeline/                 # Quy trình 6 bước: Spec -> Dribbble -> DESIGN.md -> 6 Gates -> Stitch -> Code
+    ├── ui-ux-pro-max/                       # Thư viện style, color palette, typography & UX audit
+    ├── mobile-design/                       # Chuẩn thiết kế mobile iOS/Android & touch psychology
+    ├── stitch-ui-design/                    # Hướng dẫn viết prompt chuẩn cho Google Stitch MCP
+    ├── # ── Coding & Engineering Workflow ──
     ├── clean-arch-coding/                   # Template & adapter Flutter / Android / iOS
     ├── opus-coding-workflow/                # Quy trình Spec-first, Refactor, Debug, Verify
     ├── hoh-workflow/                        # Quy trình phân quyền 3 vai trò Planner -> Dev -> QA
@@ -156,6 +193,7 @@ coding-rules-agent/
 
 - `rules/AGENTS.md` (Always-on): Nguyên tắc bất biến, luôn nạp vào context.
 - `skills/` (On-demand): Template chi tiết & checklist, chỉ đọc khi đúng tác vụ.
+- **Lưu ý tích hợp:** Các skill `speckit-*` sử dụng thư mục `.specify/` trong project (cài qua `specify init --ai agy` hoặc copy `.specify/`), còn `app-design-pipeline` dùng **Stitch MCP** khi sinh màn hình.
 
 ---
 

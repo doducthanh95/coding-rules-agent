@@ -20,8 +20,9 @@ Applies to all coding tasks across any language or framework: new features, refa
 
 ## 2. Task Start & Approval Gate
 - Before writing code, summarize: **scope, goals, hard rules, phases, stopping conditions, and reference paths**.
-- **Preview before write:** Present a preview (file paths, scope, and content/diff) and wait for explicit user approval before creating, modifying, or deleting files (including report artifacts). Never auto-apply after asking for confirmation.
+- **Preview before write (when appropriate):** Present a preview (file paths, scope, and content/diff) and wait for explicit user approval before editing when changing architecture/public contracts, deleting or renaming multiple files, adding new dependencies, or when requirements are ambiguous. Proceed directly without blocking on small bug fixes, lint/format fixes, localized refactors, or explicit user-directed edits. Never auto-apply after asking for confirmation.
 - **Respect user-pinned constraints:** Keep user-specified config locations, method signatures, and file-scope limits intact; report cross-file dependencies as risks rather than silently expanding scope.
+- **Repo architecture precedence:** Follow existing repository patterns (and local `AGENTS.md` if present) when a repo uses another architecture; apply `clean_arch_coding_standard.md` only for Clean Architecture repos or new projects.
 
 ## 3. Refactor Workflow
 1. Inventory current files, symbols, dependencies, and global/singleton state.
@@ -52,5 +53,5 @@ Applies to all coding tasks across any language or framework: new features, refa
 
 ## 7. Stack-Specific References (Lazy-Load Only When Needed)
 - `references/ios-xcode-and-networking-pitfalls.md` — Xcode `.pbxproj` target wiring, Swift `Decodable`/access-control, monorepo type disambiguation, iOS networking contract drift & token-refresh queues.
-- `references/flutter-and-cross-platform-notes.md` — Flutter `AppDomainType`/Dio registration, native-bridge endpoint discovery, iOS `.xcarchive` triage.
+- `references/flutter-and-cross-platform-notes.md` — Flutter networking domain/Dio registration, native-bridge endpoint discovery, iOS `.xcarchive` triage.
 - `references/macos-swiftui-and-ui-notes.md` — macOS SwiftUI launch/CLI pitfalls, multi-surface UI locking, design tokens.

@@ -1,3 +1,26 @@
+# End-to-End Spec, Design & Engineering Workflow
+
+Follow this integrated lifecycle for new features and UI/UX work:
+
+```text
+speckit-constitution ─▶ speckit-specify ─▶ (speckit-clarify / speckit-converge)
+        │
+        ▼
+[app-design-pipeline]  (Mode A: Dribbble → DESIGN.md → 6 Gates → Stitch | Mode B: Fast Path if DESIGN.md exists)
+        │
+        ▼
+speckit-plan ─▶ speckit-tasks ─▶ speckit-analyze ─▶ speckit-implement (opus-coding-workflow + clean-arch-coding) ─▶ Verify
+```
+
+- **Spec Phase (`speckit-*`):** Capture requirements and acceptance criteria in `spec.md` before designing or coding. Use `speckit-clarify` / `speckit-converge` to resolve ambiguities before planning.
+- **Design Phase (`app-design-pipeline`):** Always check project root for `DESIGN.md` first:
+  - **Mode A (First-Time Setup):** `DESIGN.md` missing → run full 6 steps (Screen Budget → Dribbble Reference → `DESIGN.md` → 6 Quality Gates → Stitch MCP → Code Handoff).
+  - **Mode B (Incremental Fast Path):** `DESIGN.md` exists (with locked `stitch_project_id` & `stitch_design_system`) → skip Dribbble/style discovery and go directly from Screen Budget → 6 Quality Gates → Stitch `generate_screen_from_text` → Code Handoff.
+  - Combine `ui-ux-pro-max`, `mobile-design`, and `stitch-ui-design` during Gate 4.
+- **Engineering Phase (`opus-coding-workflow` + `clean-arch-coding`):** Implement inside-out (`Domain -> Data -> DI -> Presentation`) referencing both `spec.md` (business contract) and `DESIGN.md` + approved Stitch screens (visual contract), then verify with real build/test/device checks.
+
+---
+
 # Clean Architecture & Coding Standard (Core Router)
 
 Mandatory baseline for **Flutter, Android, and iOS**.
@@ -17,7 +40,9 @@ Never mix types, folder names, or idioms from the other two platforms.
    - **Thin State Holder:** Only holds/emits immutable UI state, forwards 1 user intent to 1 `UseCase`, and switches on `Outcome` to emit UI state. Never inspects HTTP status/codes, accesses repositories/storage, or chains multi-step conditional UseCases.
    - **Self-Contained `UseCase`:** Never return raw HTTP responses or ambiguous `bool` to `Presentation`; return an explicit `Outcome` or `Result`. Max 2 `UseCase` call levels (`Orchestrator -> Atomic`), no circular dependencies. Keep the public entry method as a ~25–35 line step-by-step Table of Contents with focused private helpers.
 3. **Control Flow:** Max 2 levels of `if/else` nesting. Prefer early returns/guard clauses, flat `switch`/`when` with explicit branch handling or safe fallback, and small helpers.
-4. **Pragmatic Single Model:** Default to 1 model in `Domain` (`entities/`). Split a separate `DTO` in `Data` only when the API schema is deeply nested, aggregates endpoints, or diverges from domain needs.
+4. **Pragmatic Single Model:** Default to 1 model in `Domain` (`entities/`), with pure-language serialization (`fromJson`/`toJson` or `Codable`) called **only** by `Data`.
+   - **Never create a 1-to-1 `DTO`:** Do NOT create `data/models/*Dto` if its fields mirror `domain/entities/` 1-to-1. Split a separate `DTO` in `Data` **only** when the API schema is deeply nested, aggregates multiple endpoints, or diverges significantly from domain needs.
+   - **Refactor rule:** When refactoring existing code that already has redundant 1-to-1 DTOs, delete `data/models/` and collapse them into `domain/entities/`.
 5. **Plain & Common English:** Use simple, everyday English words for file/class/function/variable names and git commits (e.g., `get`, `load`, `save`, `check`, `show`, `add`, `fix`, `update`, `remove`).
 6. **Tiered Feature Scope & Verification:**
    - *Full Feature (API/DB/Storage):* `Data` + `Domain` + `Presentation` + `DI`.

@@ -1,9 +1,10 @@
 {
   "name": "coding-rules-agent",
-  "description": "Multi-platform Clean Architecture 3-layer coding standard (Flutter, Android, iOS) and universal engineering workflow for Antigravity.",
+  "description": "End-to-end Spec-Driven Development (speckit), App UI/UX Design Pipeline (DESIGN.md + Stitch), Multi-platform Clean Architecture 3-layer coding standard (Flutter, Android, iOS), and Engineering Workflows for Antigravity.",
   "suggestedPrompts": [
+    "Create a feature spec with speckit-specify and design it with app-design-pipeline",
+    "Run app-design-pipeline to generate Stitch screens from spec and DESIGN.md",
     "Implement a new feature following Clean Architecture 3-layer standard",
-    "Review this module against UseCase vs Presentation boundary rules",
-    "Refactor this feature with Thin Coordinator and // MARK: View sections"
+    "Review this module against UseCase vs Presentation boundary rules"
   ]
 }
